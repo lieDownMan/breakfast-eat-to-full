@@ -12,12 +12,17 @@ class Main {
         do Map.init();
         
         let game = Game.new();
-        if (game.run()){
-            do game.win();
-        }else{
-            do game.lose();
+        while (game.start()){
+            if (game.run()){
+                do game.win();
+            }else{
+                do game.lose();
+            }
+            do game.dispose();
+            let game = Game.new();
         }
-        do game.dispose();
+        
+        
         
         do MoveableObj.release();
         do Ghost.release();

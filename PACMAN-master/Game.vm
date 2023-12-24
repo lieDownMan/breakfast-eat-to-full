@@ -210,6 +210,55 @@ call Map.dispose 1
 pop temp 0
 push local 5
 return
+function Game.start 1
+push argument 0
+pop pointer 0
+call Screen.clearScreen 0
+pop temp 0
+push constant 10
+push constant 148
+call Start2.godtone 2
+pop temp 0
+push constant 402
+push constant 148
+call Start2.wayne75525 2
+pop temp 0
+label WHILE_EXP0
+push local 0
+push constant 101
+eq
+not
+push local 0
+push constant 69
+eq
+not
+and
+push local 0
+push constant 113
+eq
+not
+and
+push local 0
+push constant 81
+eq
+not
+and
+not
+if-goto WHILE_END0
+call Keyboard.keyPressed 0
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+call Screen.clearScreen 0
+pop temp 0
+push local 0
+push constant 69
+eq
+push local 0
+push constant 101
+eq
+or
+return
 function Game.update_states 4
 push argument 0
 pop pointer 0
@@ -601,9 +650,9 @@ pop temp 0
 label IF_FALSE13
 push argument 1
 push local 2
-push local 3
 push constant 1
-add
+sub
+push local 3
 call Map.get_chunk_info 3
 push constant 2
 eq
@@ -641,16 +690,14 @@ goto WHILE_EXP2
 label WHILE_END2
 push argument 1
 push local 2
-push local 3
 push constant 1
-add
+sub
+push local 3
 call Map.eat_chunk 3
 pop temp 0
 label IF_FALSE15
 push argument 1
 push local 2
-push constant 1
-add
 push local 3
 push constant 1
 add
@@ -691,14 +738,23 @@ goto WHILE_EXP3
 label WHILE_END3
 push argument 1
 push local 2
-push constant 1
-add
 push local 3
 push constant 1
 add
 call Map.eat_chunk 3
 pop temp 0
 label IF_FALSE17
+push argument 1
+push local 2
+push local 3
+push constant 1
+sub
+call Map.get_chunk_info 3
+push constant 2
+eq
+if-goto IF_TRUE19
+goto IF_FALSE19
+label IF_TRUE19
 push constant 0
 pop local 1
 label WHILE_EXP4
@@ -713,44 +769,14 @@ add
 pop pointer 1
 push that 0
 pop local 0
-push static 5
-push constant 10
-call Math.divide 2
-push constant 10
-call Math.multiply 2
-push static 5
-eq
-if-goto IF_TRUE19
-goto IF_FALSE19
-label IF_TRUE19
 push local 0
-call Ghost.count 1
-pop temp 0
-label IF_FALSE19
-push pointer 0
-push argument 2
-push local 0
-call Game.is_collision 3
+call Ghost.is_normal 1
 if-goto IF_TRUE20
 goto IF_FALSE20
 label IF_TRUE20
 push local 0
-call Ghost.is_frightened 1
-if-goto IF_TRUE21
-goto IF_FALSE21
-label IF_TRUE21
-push local 0
-call Ghost.set_transparent 1
+call Ghost.set_frightened 1
 pop temp 0
-label IF_FALSE21
-push local 0
-call Ghost.is_normal 1
-if-goto IF_TRUE22
-goto IF_FALSE22
-label IF_TRUE22
-push constant 0
-return
-label IF_FALSE22
 label IF_FALSE20
 push local 1
 push constant 1
@@ -758,6 +784,73 @@ add
 pop local 1
 goto WHILE_EXP4
 label WHILE_END4
+push argument 1
+push local 2
+push local 3
+push constant 1
+sub
+call Map.eat_chunk 3
+pop temp 0
+label IF_FALSE19
+push constant 0
+pop local 1
+label WHILE_EXP5
+push local 1
+push constant 4
+lt
+not
+if-goto WHILE_END5
+push local 1
+push argument 3
+add
+pop pointer 1
+push that 0
+pop local 0
+push static 5
+push constant 20
+call Math.divide 2
+push constant 20
+call Math.multiply 2
+push static 5
+eq
+if-goto IF_TRUE21
+goto IF_FALSE21
+label IF_TRUE21
+push local 0
+call Ghost.count 1
+pop temp 0
+label IF_FALSE21
+push pointer 0
+push argument 2
+push local 0
+call Game.is_collision 3
+if-goto IF_TRUE22
+goto IF_FALSE22
+label IF_TRUE22
+push local 0
+call Ghost.is_frightened 1
+if-goto IF_TRUE23
+goto IF_FALSE23
+label IF_TRUE23
+push local 0
+call Ghost.set_transparent 1
+pop temp 0
+label IF_FALSE23
+push local 0
+call Ghost.is_normal 1
+if-goto IF_TRUE24
+goto IF_FALSE24
+label IF_TRUE24
+push constant 0
+return
+label IF_FALSE24
+label IF_FALSE22
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP5
+label WHILE_END5
 push constant 0
 not
 return

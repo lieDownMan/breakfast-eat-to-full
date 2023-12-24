@@ -1,12 +1,4 @@
 function Main.main 1
-push constant 10
-push constant 148
-call Start2.godtone 2
-pop temp 0
-push constant 402
-push constant 148
-call Start2.wayne75525 2
-pop temp 0
 call MoveableObj.init 0
 pop temp 0
 call Game.init 0
@@ -19,6 +11,11 @@ call Map.init 0
 pop temp 0
 call Game.new 0
 pop local 0
+label WHILE_EXP0
+push local 0
+call Game.start 1
+not
+if-goto WHILE_END0
 push local 0
 call Game.run 1
 if-goto IF_TRUE0
@@ -36,6 +33,10 @@ label IF_END0
 push local 0
 call Game.dispose 1
 pop temp 0
+call Game.new 0
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
 call MoveableObj.release 0
 pop temp 0
 call Ghost.release 0

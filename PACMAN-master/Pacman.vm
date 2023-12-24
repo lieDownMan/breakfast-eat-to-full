@@ -100,7 +100,7 @@ call Math.multiply 2
 push argument 1
 push constant 8
 call Math.multiply 2
-push constant 8
+push constant 4
 push argument 2
 call MoveableObj.new 4
 pop this 0

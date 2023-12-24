@@ -87,6 +87,11 @@ class Game {
         
         return isWin;
     }
+
+    method boolean start(){
+        return
+    }
+    
     method boolean update_states(Map map, Pacman pacman, Array ghosts){
         
         var Ghost temp;
@@ -179,6 +184,17 @@ class Game {
             }
             do map.eat_chunk(pacmanX+1, pacmanY);
         }
+        if (map.get_chunk_info(pacmanX-1, pacmanY) = 2){
+            let ind = 0;
+            while (ind < 4){
+                let temp = ghosts[ind];
+                if (temp.is_normal()){
+                    do temp.set_frightened();
+                }
+                let ind = ind + 1;
+            }
+            do map.eat_chunk(pacmanX-1, pacmanY);
+        }
         if (map.get_chunk_info(pacmanX, pacmanY+1) = 2){
             let ind = 0;
             while (ind < 4){
@@ -190,7 +206,7 @@ class Game {
             }
             do map.eat_chunk(pacmanX, pacmanY+1);
         }
-        if (map.get_chunk_info(pacmanX+1, pacmanY+1) = 2){
+        if (map.get_chunk_info(pacmanX, pacmanY-1) = 2){
             let ind = 0;
             while (ind < 4){
                 let temp = ghosts[ind];
@@ -199,14 +215,14 @@ class Game {
                 }
                 let ind = ind + 1;
             }
-            do map.eat_chunk(pacmanX+1, pacmanY+1);
+            do map.eat_chunk(pacmanX, pacmanY-1);
         }
 
         // touch ghosts
         let ind = 0;
         while (ind < 4){
             let temp = ghosts[ind];
-            if (((time / 10)*10) = time){
+            if (((time / 20)*20) = time){
                 do temp.count();
             }
             if (is_collision(pacman, temp)){

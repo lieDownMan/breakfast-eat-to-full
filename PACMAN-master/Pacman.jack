@@ -28,7 +28,7 @@ class Pacman {
     }
     // constructor
     constructor Pacman new(int startXChunk, int startYChunk, int direction){
-        let prototype = MoveableObj.new(startXChunk*8, startYChunk*8, 8, direction);
+        let prototype = MoveableObj.new(startXChunk*8, startYChunk*8, 4, direction);
         let image_state = 4;
         
         return this;
