@@ -213,7 +213,14 @@ class Ghost {
         return timeCounter;
     }
     method int distance_between(int chunkX1, int chunkY1, int chunkX2, int chunkY2){
-        return (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY1 - chunkY2)*(chunkY1 - chunkY2)));
+        // the y-axis is a closed loop
+        var int d1;
+        var int d2;
+        var int d3;
+        let d1 = (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY1 - chunkY2)*(chunkY1 - chunkY2)));
+        let d2 = (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY1 + 28 - chunkY2)*(chunkY1 + 28 - chunkY2)));
+        let d3 = (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY2 + 28 - chunkY1)*(chunkY2 + 28 - chunkY1)));
+        return Math.min(d1, Math.min(d2, d3));
     }
     method boolean valid_move_direction(int dir, Map map){
         if ((dir = 0) | (dir = 2)){
@@ -255,7 +262,7 @@ class Ghost {
                 return;
             }
             let targetXChunk = 2;
-            let targetYChunk = 26;
+            let targetYChunk = 25;
             return;
         }
         if (id = 2){
@@ -306,7 +313,7 @@ class Ghost {
         do prototype.set_speed(2);
         if (id = 1){
             let targetXChunk = 2;
-            let targetYChunk = 26;
+            let targetYChunk = 25;
             let timeCounter = 10;
         }
         if (id = 2){

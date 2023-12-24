@@ -89,9 +89,9 @@ class Game {
     }
 
     method boolean start(){
-        return
+        return true;
     }
-    
+
     method boolean update_states(Map map, Pacman pacman, Array ghosts){
         
         var Ghost temp;
@@ -165,7 +165,7 @@ class Game {
             let ind = 0;
             while (ind < 4){
                 let temp = ghosts[ind];
-                if (temp.is_normal()){
+                if (~temp.is_transparent()){
                     do temp.set_frightened();
                 }
                 
@@ -177,7 +177,7 @@ class Game {
             let ind = 0;
             while (ind < 4){
                 let temp = ghosts[ind];
-                if (temp.is_normal()){
+                if (~temp.is_transparent()){
                     do temp.set_frightened();
                 }
                 let ind = ind + 1;
@@ -188,7 +188,7 @@ class Game {
             let ind = 0;
             while (ind < 4){
                 let temp = ghosts[ind];
-                if (temp.is_normal()){
+                if (~temp.is_transparent()){
                     do temp.set_frightened();
                 }
                 let ind = ind + 1;
@@ -199,7 +199,7 @@ class Game {
             let ind = 0;
             while (ind < 4){
                 let temp = ghosts[ind];
-                if (temp.is_normal()){
+                if (~temp.is_transparent()){
                     do temp.set_frightened();
                 }
                 let ind = ind + 1;
@@ -210,7 +210,7 @@ class Game {
             let ind = 0;
             while (ind < 4){
                 let temp = ghosts[ind];
-                if (temp.is_normal()){
+                if (~temp.is_transparent()){
                     do temp.set_frightened();
                 }
                 let ind = ind + 1;

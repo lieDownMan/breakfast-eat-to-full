@@ -210,54 +210,11 @@ call Map.dispose 1
 pop temp 0
 push local 5
 return
-function Game.start 1
+function Game.start 0
 push argument 0
 pop pointer 0
-call Screen.clearScreen 0
-pop temp 0
-push constant 10
-push constant 148
-call Start2.godtone 2
-pop temp 0
-push constant 402
-push constant 148
-call Start2.wayne75525 2
-pop temp 0
-label WHILE_EXP0
-push local 0
-push constant 101
-eq
+push constant 0
 not
-push local 0
-push constant 69
-eq
-not
-and
-push local 0
-push constant 113
-eq
-not
-and
-push local 0
-push constant 81
-eq
-not
-and
-not
-if-goto WHILE_END0
-call Keyboard.keyPressed 0
-pop local 0
-goto WHILE_EXP0
-label WHILE_END0
-call Screen.clearScreen 0
-pop temp 0
-push local 0
-push constant 69
-eq
-push local 0
-push constant 101
-eq
-or
 return
 function Game.update_states 4
 push argument 0
@@ -580,7 +537,8 @@ pop pointer 1
 push that 0
 pop local 0
 push local 0
-call Ghost.is_normal 1
+call Ghost.is_transparent 1
+not
 if-goto IF_TRUE12
 goto IF_FALSE12
 label IF_TRUE12
@@ -626,7 +584,8 @@ pop pointer 1
 push that 0
 pop local 0
 push local 0
-call Ghost.is_normal 1
+call Ghost.is_transparent 1
+not
 if-goto IF_TRUE14
 goto IF_FALSE14
 label IF_TRUE14
@@ -674,7 +633,8 @@ pop pointer 1
 push that 0
 pop local 0
 push local 0
-call Ghost.is_normal 1
+call Ghost.is_transparent 1
+not
 if-goto IF_TRUE16
 goto IF_FALSE16
 label IF_TRUE16
@@ -722,7 +682,8 @@ pop pointer 1
 push that 0
 pop local 0
 push local 0
-call Ghost.is_normal 1
+call Ghost.is_transparent 1
+not
 if-goto IF_TRUE18
 goto IF_FALSE18
 label IF_TRUE18
@@ -770,7 +731,8 @@ pop pointer 1
 push that 0
 pop local 0
 push local 0
-call Ghost.is_normal 1
+call Ghost.is_transparent 1
+not
 if-goto IF_TRUE20
 goto IF_FALSE20
 label IF_TRUE20

@@ -1,4 +1,12 @@
 function Main.main 1
+push constant 10
+push constant 148
+call Start2.godtone 2
+pop temp 0
+push constant 402
+push constant 148
+call Start2.wayne75525 2
+pop temp 0
 call MoveableObj.init 0
 pop temp 0
 call Game.init 0

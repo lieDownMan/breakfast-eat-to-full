@@ -716,135 +716,15 @@ call Draw.render 5
 pop temp 0
 label IF_FALSE13
 push argument 1
-push constant 1
-add
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 1
-add
 push local 0
 add
 pop pointer 1
 push that 0
-push constant 1
+push constant 2
 eq
-and
 if-goto IF_TRUE14
 goto IF_FALSE14
 label IF_TRUE14
-push argument 1
-push constant 1
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 1
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE14
-push argument 1
-push constant 2
-add
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 2
-add
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 1
-eq
-and
-if-goto IF_TRUE15
-goto IF_FALSE15
-label IF_TRUE15
-push argument 1
-push constant 2
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 1
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE15
-push argument 1
-push constant 1
-sub
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 1
-sub
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 1
-eq
-and
-if-goto IF_TRUE16
-goto IF_FALSE16
-label IF_TRUE16
-push argument 1
-push constant 1
-sub
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 1
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE16
-push argument 1
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 2
-eq
-if-goto IF_TRUE17
-goto IF_FALSE17
-label IF_TRUE17
 push argument 1
 push constant 8
 call Math.multiply 2
@@ -864,28 +744,18 @@ push constant 8
 push constant 0
 call Draw.render 5
 pop temp 0
-label IF_FALSE17
+label IF_FALSE14
 push argument 1
-push constant 1
-add
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 1
-add
 push local 0
 add
 pop pointer 1
 push that 0
-push constant 2
+push constant 3
 eq
-and
-if-goto IF_TRUE18
-goto IF_FALSE18
-label IF_TRUE18
+if-goto IF_TRUE15
+goto IF_FALSE15
+label IF_TRUE15
 push argument 1
-push constant 1
-add
 push constant 8
 call Math.multiply 2
 push constant 4
@@ -893,6 +763,83 @@ add
 call Game.translate_x_to_col 1
 push argument 2
 push constant 1
+add
+push constant 8
+call Math.multiply 2
+push constant 4
+add
+call Game.translate_y_to_row 1
+push static 3
+push constant 8
+push constant 0
+call Draw.render 5
+pop temp 0
+label IF_FALSE15
+label IF_FALSE12
+push argument 2
+push constant 2
+add
+call Game.ooyb_chunk 1
+not
+if-goto IF_TRUE16
+goto IF_FALSE16
+label IF_TRUE16
+push argument 2
+push constant 2
+add
+push this 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push argument 1
+push local 0
+add
+pop pointer 1
+push that 0
+push constant 1
+eq
+if-goto IF_TRUE17
+goto IF_FALSE17
+label IF_TRUE17
+push argument 1
+push constant 8
+call Math.multiply 2
+push constant 4
+add
+call Game.translate_x_to_col 1
+push argument 2
+push constant 2
+add
+push constant 8
+call Math.multiply 2
+push constant 4
+add
+call Game.translate_y_to_row 1
+push static 1
+push constant 8
+push constant 0
+call Draw.render 5
+pop temp 0
+label IF_FALSE17
+push argument 1
+push local 0
+add
+pop pointer 1
+push that 0
+push constant 2
+eq
+if-goto IF_TRUE18
+goto IF_FALSE18
+label IF_TRUE18
+push argument 1
+push constant 8
+call Math.multiply 2
+push constant 4
+add
+call Game.translate_x_to_col 1
+push argument 2
+push constant 2
 add
 push constant 8
 call Math.multiply 2
@@ -906,91 +853,58 @@ call Draw.render 5
 pop temp 0
 label IF_FALSE18
 push argument 1
-push constant 2
-add
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 2
-add
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 2
-eq
-and
-if-goto IF_TRUE19
-goto IF_FALSE19
-label IF_TRUE19
-push argument 1
-push constant 2
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 2
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE19
-push argument 1
-push constant 1
-sub
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 1
-sub
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 2
-eq
-and
-if-goto IF_TRUE20
-goto IF_FALSE20
-label IF_TRUE20
-push argument 1
-push constant 1
-sub
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 2
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE20
-push argument 1
 push local 0
 add
 pop pointer 1
 push that 0
 push constant 3
+eq
+if-goto IF_TRUE19
+goto IF_FALSE19
+label IF_TRUE19
+push argument 1
+push constant 8
+call Math.multiply 2
+push constant 4
+add
+call Game.translate_x_to_col 1
+push argument 2
+push constant 2
+add
+push constant 8
+call Math.multiply 2
+push constant 4
+add
+call Game.translate_y_to_row 1
+push static 3
+push constant 8
+push constant 0
+call Draw.render 5
+pop temp 0
+label IF_FALSE19
+label IF_FALSE16
+push argument 2
+push constant 1
+sub
+call Game.ooyb_chunk 1
+not
+if-goto IF_TRUE20
+goto IF_FALSE20
+label IF_TRUE20
+push argument 2
+push constant 1
+sub
+push this 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push argument 1
+push local 0
+add
+pop pointer 1
+push that 0
+push constant 1
 eq
 if-goto IF_TRUE21
 goto IF_FALSE21
@@ -1003,39 +917,29 @@ add
 call Game.translate_x_to_col 1
 push argument 2
 push constant 1
-add
+sub
 push constant 8
 call Math.multiply 2
 push constant 4
 add
 call Game.translate_y_to_row 1
-push static 3
+push static 1
 push constant 8
 push constant 0
 call Draw.render 5
 pop temp 0
 label IF_FALSE21
 push argument 1
-push constant 1
-add
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 1
-add
 push local 0
 add
 pop pointer 1
 push that 0
-push constant 3
+push constant 2
 eq
-and
 if-goto IF_TRUE22
 goto IF_FALSE22
 label IF_TRUE22
 push argument 1
-push constant 1
-add
 push constant 8
 call Math.multiply 2
 push constant 4
@@ -1043,39 +947,29 @@ add
 call Game.translate_x_to_col 1
 push argument 2
 push constant 1
-add
+sub
 push constant 8
 call Math.multiply 2
 push constant 4
 add
 call Game.translate_y_to_row 1
-push static 3
+push static 2
 push constant 8
 push constant 0
 call Draw.render 5
 pop temp 0
 label IF_FALSE22
 push argument 1
-push constant 2
-add
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 2
-add
 push local 0
 add
 pop pointer 1
 push that 0
 push constant 3
 eq
-and
 if-goto IF_TRUE23
 goto IF_FALSE23
 label IF_TRUE23
 push argument 1
-push constant 2
-add
 push constant 8
 call Math.multiply 2
 push constant 4
@@ -1083,7 +977,7 @@ add
 call Game.translate_x_to_col 1
 push argument 2
 push constant 1
-add
+sub
 push constant 8
 call Math.multiply 2
 push constant 4
@@ -1095,261 +989,7 @@ push constant 0
 call Draw.render 5
 pop temp 0
 label IF_FALSE23
-push argument 1
-push constant 1
-sub
-call Game.ooxb_chunk 1
-not
-push argument 1
-push constant 1
-sub
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 3
-eq
-and
-if-goto IF_TRUE24
-goto IF_FALSE24
-label IF_TRUE24
-push argument 1
-push constant 1
-sub
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 3
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE24
-label IF_FALSE12
-push argument 2
-push constant 2
-add
-call Game.ooyb_chunk 1
-not
-if-goto IF_TRUE25
-goto IF_FALSE25
-label IF_TRUE25
-push argument 2
-push constant 2
-add
-push this 0
-add
-pop pointer 1
-push that 0
-pop local 0
-push argument 1
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 1
-eq
-if-goto IF_TRUE26
-goto IF_FALSE26
-label IF_TRUE26
-push argument 1
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 2
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 1
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE26
-push argument 1
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 2
-eq
-if-goto IF_TRUE27
-goto IF_FALSE27
-label IF_TRUE27
-push argument 1
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 2
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 2
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE27
-push argument 1
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 3
-eq
-if-goto IF_TRUE28
-goto IF_FALSE28
-label IF_TRUE28
-push argument 1
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 2
-add
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 3
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE28
-label IF_FALSE25
-push argument 2
-push constant 1
-sub
-call Game.ooyb_chunk 1
-not
-if-goto IF_TRUE29
-goto IF_FALSE29
-label IF_TRUE29
-push argument 2
-push constant 1
-sub
-push this 0
-add
-pop pointer 1
-push that 0
-pop local 0
-push argument 1
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 1
-eq
-if-goto IF_TRUE30
-goto IF_FALSE30
-label IF_TRUE30
-push argument 1
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-sub
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 1
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE30
-push argument 1
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 2
-eq
-if-goto IF_TRUE31
-goto IF_FALSE31
-label IF_TRUE31
-push argument 1
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-sub
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 2
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE31
-push argument 1
-push local 0
-add
-pop pointer 1
-push that 0
-push constant 3
-eq
-if-goto IF_TRUE32
-goto IF_FALSE32
-label IF_TRUE32
-push argument 1
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_x_to_col 1
-push argument 2
-push constant 1
-sub
-push constant 8
-call Math.multiply 2
-push constant 4
-add
-call Game.translate_y_to_row 1
-push static 3
-push constant 8
-push constant 0
-call Draw.render 5
-pop temp 0
-label IF_FALSE32
-label IF_FALSE29
+label IF_FALSE20
 push constant 0
 return
 function Map.dispose 2
