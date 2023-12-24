@@ -120,6 +120,111 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
+push constant 5
+call Array.new 1
+pop static 3
+push constant 1
+push static 3
+add
+push constant 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 3
+add
+push constant 32
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push static 3
+add
+push constant 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push static 3
+add
+push constant 32
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+call Array.new 1
+pop static 4
+push constant 1
+push static 4
+add
+push constant 25
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 4
+add
+push constant 26
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push static 4
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push static 4
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+call Array.new 1
+pop static 5
+push constant 1
+push static 5
+add
+push constant 10
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 5
+add
+push constant 10
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push static 5
+add
+push constant 7
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push static 5
+add
+push constant 7
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
 push constant 0
 return
 function Ghost.release 0
@@ -165,6 +270,15 @@ push static 1
 call Array.dispose 1
 pop temp 0
 push static 2
+call Array.dispose 1
+pop temp 0
+push static 3
+call Array.dispose 1
+pop temp 0
+push static 4
+call Array.dispose 1
+pop temp 0
+push static 5
 call Array.dispose 1
 pop temp 0
 push constant 0
@@ -1050,68 +1164,37 @@ push constant 2
 call MoveableObj.set_speed 2
 pop temp 0
 push this 3
-push constant 1
-eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push constant 2
+push static 3
+add
+pop pointer 1
+push that 0
 pop this 4
-push constant 25
-pop this 5
-push constant 10
-pop this 7
-label IF_FALSE0
 push this 3
-push constant 2
-eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push constant 32
-pop this 4
-push constant 26
+push static 4
+add
+pop pointer 1
+push that 0
 pop this 5
-push constant 10
-pop this 7
-label IF_FALSE1
 push this 3
-push constant 3
-eq
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
-push constant 2
-pop this 4
-push constant 1
-pop this 5
-push constant 7
+push static 5
+add
+pop pointer 1
+push that 0
 pop this 7
-label IF_FALSE2
+push argument 1
+not
 push this 3
 push constant 4
 eq
-if-goto IF_TRUE3
-goto IF_FALSE3
-label IF_TRUE3
-push constant 32
-pop this 4
-push constant 1
-pop this 5
-push argument 1
-if-goto IF_TRUE4
-goto IF_FALSE4
-label IF_TRUE4
-push constant 7
-pop this 7
-goto IF_END4
-label IF_FALSE4
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
 push constant 1
 pop this 2
 push constant 100
 pop this 7
-label IF_END4
-label IF_FALSE3
+label IF_FALSE0
 push constant 0
 return
 function Ghost.count 0

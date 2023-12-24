@@ -134,25 +134,13 @@ class Pacman {
         }
         let direc = prototype.get_direction();
         let movable = valid_move_direction(direc, map);
-        if ((direc = 1)){
-            if (map.get_chunk_info(get_x_chunk(), get_y_near_chunk(direc)) = 4){
-                do prototype.set_y_chunk(25);
-                return;
-            }
-            if (map.get_chunk_info((get_x_chunk()+1), get_y_near_chunk(direc)) = 4){
-                do prototype.set_y_chunk(25);
-                return;
-            }
+        if ((direc = 1) & (map.get_chunk_info(get_x_chunk(), get_y_near_chunk(direc)) = 4)){
+            do prototype.set_y_chunk(25);
+            return;
         }
-        if ((direc = 3)){
-            if (map.get_chunk_info(get_x_chunk(), get_y_near_chunk(direc)) = 4){
-                do prototype.set_y_chunk(2);
-                return;
-            }
-            if (map.get_chunk_info((get_x_chunk()+1), get_y_near_chunk(direc)) = 4){
-                do prototype.set_y_chunk(2);
-                return;
-            }
+        if ((direc = 3) & (map.get_chunk_info(get_x_chunk(), get_y_near_chunk(direc)) = 4)){
+            do prototype.set_y_chunk(2);
+            return;
         }
         if(movable){
             do prototype.move();
