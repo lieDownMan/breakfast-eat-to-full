@@ -100,7 +100,7 @@ call Math.multiply 2
 push argument 1
 push constant 8
 call Math.multiply 2
-push constant 8
+push constant 4
 push argument 2
 call MoveableObj.new 4
 pop this 0
@@ -390,9 +390,6 @@ pop local 0
 push local 1
 push constant 1
 eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
 push argument 1
 push pointer 0
 call Pacman.get_x_chunk 1
@@ -402,93 +399,48 @@ call Pacman.get_y_near_chunk 2
 call Map.get_chunk_info 3
 push constant 4
 eq
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 0
+push constant 25
+call MoveableObj.set_y_chunk 2
+pop temp 0
+push constant 0
+return
+label IF_FALSE1
+push local 1
+push constant 3
+eq
+push argument 1
+push pointer 0
+call Pacman.get_x_chunk 1
+push pointer 0
+push local 1
+call Pacman.get_y_near_chunk 2
+call Map.get_chunk_info 3
+push constant 4
+eq
+and
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
 push this 0
-push constant 25
+push constant 2
 call MoveableObj.set_y_chunk 2
 pop temp 0
 push constant 0
 return
 label IF_FALSE2
-push argument 1
-push pointer 0
-call Pacman.get_x_chunk 1
-push constant 1
-add
-push pointer 0
-push local 1
-call Pacman.get_y_near_chunk 2
-call Map.get_chunk_info 3
-push constant 4
-eq
+push local 0
 if-goto IF_TRUE3
 goto IF_FALSE3
 label IF_TRUE3
 push this 0
-push constant 25
-call MoveableObj.set_y_chunk 2
-pop temp 0
-push constant 0
-return
-label IF_FALSE3
-label IF_FALSE1
-push local 1
-push constant 3
-eq
-if-goto IF_TRUE4
-goto IF_FALSE4
-label IF_TRUE4
-push argument 1
-push pointer 0
-call Pacman.get_x_chunk 1
-push pointer 0
-push local 1
-call Pacman.get_y_near_chunk 2
-call Map.get_chunk_info 3
-push constant 4
-eq
-if-goto IF_TRUE5
-goto IF_FALSE5
-label IF_TRUE5
-push this 0
-push constant 2
-call MoveableObj.set_y_chunk 2
-pop temp 0
-push constant 0
-return
-label IF_FALSE5
-push argument 1
-push pointer 0
-call Pacman.get_x_chunk 1
-push constant 1
-add
-push pointer 0
-push local 1
-call Pacman.get_y_near_chunk 2
-call Map.get_chunk_info 3
-push constant 4
-eq
-if-goto IF_TRUE6
-goto IF_FALSE6
-label IF_TRUE6
-push this 0
-push constant 2
-call MoveableObj.set_y_chunk 2
-pop temp 0
-push constant 0
-return
-label IF_FALSE6
-label IF_FALSE4
-push local 0
-if-goto IF_TRUE7
-goto IF_FALSE7
-label IF_TRUE7
-push this 0
 call MoveableObj.move 1
 pop temp 0
-label IF_FALSE7
+label IF_FALSE3
 push constant 0
 return
 function Pacman.get_x 0

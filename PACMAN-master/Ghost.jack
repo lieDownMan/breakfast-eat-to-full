@@ -3,6 +3,9 @@ class Ghost {
     static Array ghost_image;
     static Array ghostTargetDx;
     static Array ghostTargetDy;
+    static Array originalTargetX;
+    static Array originalTargetY;
+    static Array originalTime;
     // private
     field MoveableObj prototype; // simulate "inheritance" behavior
     field int state; // 0-transparent 1-weak 2-normal
@@ -32,6 +35,21 @@ class Ghost {
         let ghostTargetDy[1] = -2;
         let ghostTargetDy[2] = 0;
         let ghostTargetDy[3] = 2;
+        let originalTargetX = Array.new(5);
+        let originalTargetX[1] = 2;
+        let originalTargetX[2] = 32;
+        let originalTargetX[3] = 2;
+        let originalTargetX[4] = 32;
+        let originalTargetY = Array.new(5);
+        let originalTargetY[1] = 25;
+        let originalTargetY[2] = 26; 
+        let originalTargetY[3] = 1; 
+        let originalTargetY[4] = 1; 
+        let originalTime = Array.new(5);
+        let originalTime[1] = 10;
+        let originalTime[2] = 10; 
+        let originalTime[3] = 7; 
+        let originalTime[4] = 7; 
         return;
     }
     function void release(){
@@ -43,6 +61,9 @@ class Ghost {
         do ghost_image.dispose();
         do ghostTargetDx.dispose();
         do ghostTargetDy.dispose();
+        do originalTargetX.dispose();
+        do originalTargetY.dispose();
+        do originalTime.dispose();
         return;
     }
     // constructor
@@ -213,7 +234,14 @@ class Ghost {
         return timeCounter;
     }
     method int distance_between(int chunkX1, int chunkY1, int chunkX2, int chunkY2){
-        return (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY1 - chunkY2)*(chunkY1 - chunkY2)));
+        // the y-axis is a closed loop
+        var int d1;
+        var int d2;
+        var int d3;
+        let d1 = (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY1 - chunkY2)*(chunkY1 - chunkY2)));
+        let d2 = (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY1 + 28 - chunkY2)*(chunkY1 + 28 - chunkY2)));
+        let d3 = (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY2 + 28 - chunkY1)*(chunkY2 + 28 - chunkY1)));
+        return Math.min(d1, Math.min(d2, d3));
     }
     method boolean valid_move_direction(int dir, Map map){
         if ((dir = 0) | (dir = 2)){
@@ -255,7 +283,7 @@ class Ghost {
                 return;
             }
             let targetXChunk = 2;
-            let targetYChunk = 26;
+            let targetYChunk = 25;
             return;
         }
         if (id = 2){
@@ -304,31 +332,12 @@ class Ghost {
         let state = 2;
         let phase = 0;
         do prototype.set_speed(2);
-        if (id = 1){
-            let targetXChunk = 2;
-            let targetYChunk = 26;
-            let timeCounter = 10;
-        }
-        if (id = 2){
-            let targetXChunk = 32;
-            let targetYChunk = 26;
-            let timeCounter = 10;
-        }
-        if (id = 3){
-            let targetXChunk = 2;
-            let targetYChunk = 1;
-            let timeCounter = 7;
-        }
-        if (id = 4){
-            let targetXChunk = 32;
-            let targetYChunk = 1;
-            if (fg){
-                let timeCounter = 7;
-            }
-            else{
-                let phase = 1;
-                let timeCounter = 100;
-            }
+        let targetXChunk = originalTargetX[id];
+        let targetYChunk = originalTargetY[id];
+        let timeCounter = originalTime[id];
+        if ((~fg) & (id = 4)){
+            let phase = 1;
+            let timeCounter = 100;
         }
         return;
     }
