@@ -1,0 +1,29 @@
+class Main {
+    // entry point
+    function void main(){
+        var Game game;
+
+        do Start2.godtone(10, 148);
+        do Start2.wayne75525(402, 148);
+        do MoveableObj.init();
+        do Game.init();
+        do Ghost.init();
+        do Pacman.init();
+        do Map.init();
+        
+        let game = Game.new();
+        if (game.run()){
+            do game.win();
+        }else{
+            do game.lose();
+        }
+        do game.dispose();
+        
+        do MoveableObj.release();
+        do Ghost.release();
+        do Pacman.release();
+        do Map.release();
+        do Map.release();
+        return;
+    }
+}

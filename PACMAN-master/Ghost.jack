@@ -1,0 +1,511 @@
+class Ghost {
+    
+    static Array ghost_image;
+    static Array ghostTargetDx;
+    static Array ghostTargetDy;
+    // private
+    field MoveableObj prototype; // simulate "inheritance" behavior
+    field int state; // 0-transparent 1-weak 2-normal
+    field int phase; // 0-scatter 1-chase
+    field int id;
+    field int targetXChunk;
+    field int targetYChunk;
+    field int image_state;
+    field int timeCounter;
+
+    // public
+    // initializer
+    function void init(){
+        let ghost_image = Array.new(5);
+        let ghost_image[0] = Ghost.generate_ghost_image(0);
+        let ghost_image[1] = Ghost.generate_ghost_image(1);
+        let ghost_image[2] = Ghost.generate_ghost_image(2);
+        let ghost_image[3] = Ghost.generate_ghost_image(3);
+        let ghost_image[4] = Ghost.generate_ghost_image(4);
+        let ghostTargetDx = Array.new(4);
+        let ghostTargetDx[0] = 2;
+        let ghostTargetDx[1] = 0;
+        let ghostTargetDx[2] = -2;
+        let ghostTargetDx[3] = -2;
+        let ghostTargetDy = Array.new(4);
+        let ghostTargetDy[0] = 0;
+        let ghostTargetDy[1] = -2;
+        let ghostTargetDy[2] = 0;
+        let ghostTargetDy[3] = 2;
+        return;
+    }
+    function void release(){
+        do Ghost.release_ghost_image(ghost_image[0]);
+        do Ghost.release_ghost_image(ghost_image[1]);
+        do Ghost.release_ghost_image(ghost_image[2]);
+        do Ghost.release_ghost_image(ghost_image[3]);
+        do Ghost.release_ghost_image(ghost_image[4]);
+        do ghost_image.dispose();
+        do ghostTargetDx.dispose();
+        do ghostTargetDy.dispose();
+        return;
+    }
+    // constructor
+    constructor Ghost new(int Id, int startXChunk, int startYChunk, int direction){
+        let prototype = MoveableObj.new(startXChunk*8, startYChunk*8, 2, direction);
+        let id = Id;
+        let image_state = 0;
+        do set_back_to_init(true);
+        return this;
+    }
+
+    // deconstructor
+    method void dispose(){
+        do prototype.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    // interface-1 is_transparent() -> return whether the ghost is transparent or not
+    method boolean is_transparent(){
+        if (state = 0){
+            return true;
+        }
+        return false;
+    }
+    method void set_transparent(){
+        let state = 0;
+        let phase = 0;
+        do prototype.set_dir(MoveableObj.oposite_direction(prototype.get_direction()));
+        do update_target(0, 0);
+        return;
+    }
+    // interface-2 update_direction() -> set the direction of the ghost
+    method void update_direction(Map map, Pacman pacman, Ghost ghost1){
+        
+        var int newDir;
+        
+        if ((~(Game.is_chunk_start(get_x()))) | (~(Game.is_chunk_start(get_y())))){
+            return;
+        }
+        if (is_transparent()){
+            do prototype.set_speed(8);
+        }
+
+        if ((is_transparent() & (get_x_chunk() = targetXChunk) & (get_y_chunk() = targetYChunk)) | (is_frightened() & (~(timeCounter > 0)))){
+            do set_back_to_init(false);
+            do update_target(pacman, ghost1);
+        }
+
+        if (is_normal() & (~(timeCounter > 0))){
+            do change_phase();
+        }
+        
+        if (phase = 1){
+            do update_target(pacman, ghost1);
+            let newDir = best_direction(map);
+        }else{
+            let newDir = best_direction(map);
+        }
+        do prototype.set_dir(newDir);
+        return;
+    }
+
+    // interface-3 draw() -> draw the ghost on the screen 
+    method void draw(){
+        var Array image;
+        
+        var boolean reverse;
+        if (image_state = 0){
+            let image_state = 1;
+        }else{
+            let image_state = 0;
+        }
+        if (prototype.get_direction() = 2){
+            let reverse = true;
+        }else{
+            let reverse = false;
+        }
+        let image = ghost_image[img_index()];
+        do Draw.render(Game.translate_x_to_col(get_x()), Game.translate_y_to_row(get_y()), image, 16, reverse);
+        return;
+    }
+
+    // interface-4 erase() -> erase the ghost on the screen
+    method void erase(){
+        do Screen.setColor(false);
+        do Screen.drawRectangle(Game.translate_x_to_col(get_x()), Game.translate_y_to_row(get_y()+16), Game.translate_x_to_col(get_x()+16), Game.translate_y_to_row(get_y()));
+        return;
+    }
+    method void set_frightened(){
+        let phase = 0;
+        let state = 1;
+        let timeCounter = 3;
+        do prototype.set_dir(MoveableObj.oposite_direction(prototype.get_direction()));
+        do prototype.set_speed(1);
+        do update_target(0, 0);
+        return;
+    }
+
+    method boolean is_frightened(){
+        if (state = 1){
+            return true;
+        }
+        return false;
+    }
+
+    method boolean is_normal(){
+        if (state = 2){
+            return true;
+        }
+        return false;
+    }
+    method int best_direction(Map map){
+        var int ind;
+        var Array validMoves;
+        var int validMoveNum;
+        var int preventedDir;
+        var int curBestDir;
+        var int curDistance;
+        var int tempDistance;
+        let preventedDir = MoveableObj.oposite_direction(prototype.get_direction());
+        let validMoves = Array.new(3);
+        let validMoveNum = 0;
+        let ind = 0;
+        while (ind < 4){
+            if ( ( ~ (ind = preventedDir) ) & (valid_move_direction(ind, map))) {
+                let validMoves[validMoveNum] = ind;
+                let validMoveNum = validMoveNum + 1;
+            }
+            let ind = ind + 1;
+        }
+        if (validMoveNum = 0){
+            return preventedDir;
+        }
+        if (is_frightened()){
+            return Game.random(validMoves, validMoveNum);
+        }
+        let curBestDir = validMoves[0];
+        let curDistance = distance_between(get_x_nxt_chunk(validMoves[0]), get_y_nxt_chunk(validMoves[0]), targetXChunk, targetYChunk);
+        let ind = 1;
+        while (ind < validMoveNum){
+            let tempDistance = distance_between(get_x_nxt_chunk(validMoves[ind]), get_y_nxt_chunk(validMoves[ind]), targetXChunk, targetYChunk);
+            if (tempDistance < curDistance){
+                let curBestDir = validMoves[ind];
+            }
+            let ind = ind + 1;
+        }
+        do validMoves.dispose();
+        return curBestDir;
+    }
+    method void change_phase(){
+
+        if ((phase = 0) | (id = 4)){
+            let phase = 1;
+            let timeCounter = 20;
+        }
+        else{
+            let phase = 0;
+            if (id = 3){
+                let timeCounter = 7;
+            }else{
+                let timeCounter = 10;
+            }
+        }
+        return;
+    }
+    method int get_timer(){
+        return timeCounter;
+    }
+    method int distance_between(int chunkX1, int chunkY1, int chunkX2, int chunkY2){
+        return (((chunkX1 - chunkX2)*(chunkX1 - chunkX2)) + ((chunkY1 - chunkY2)*(chunkY1 - chunkY2)));
+    }
+    method boolean valid_move_direction(int dir, Map map){
+        if ((dir = 0) | (dir = 2)){
+            if (map.get_chunk_info(get_x_near_chunk(dir), get_y_chunk()) = -1){
+                return false;
+            }
+            if (map.get_chunk_info(get_x_near_chunk(dir), (get_y_chunk()+1)) = -1){
+                return false;
+            }
+            return true;
+        }
+        if ((dir = 1) | (dir = 3)){
+            if (map.get_chunk_info(get_x_chunk(), get_y_near_chunk(dir)) = -1){
+                return false;
+            }
+            if (map.get_chunk_info((get_x_chunk()+1), get_y_near_chunk(dir)) = -1){
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+    method void update_target(Pacman pacman, Ghost ghost1){
+        var int curDir;
+        var int tempX;
+        var int tempY;
+        if (is_frightened()){
+            return;
+        }
+        if (is_transparent()){
+            let targetXChunk = 15;
+            let targetYChunk = 12;
+            return;
+        }
+        if (id = 1){
+            if (phase = 1){
+                let targetXChunk = pacman.get_x_chunk();
+                let targetYChunk = pacman.get_y_chunk();
+                return;
+            }
+            let targetXChunk = 2;
+            let targetYChunk = 26;
+            return;
+        }
+        if (id = 2){
+
+            if (phase = 1){
+                let curDir = prototype.get_direction();
+                let targetXChunk = pacman.get_x_near_chunk(curDir)+ghostTargetDx[curDir];
+                let targetYChunk = pacman.get_y_near_chunk(curDir)+ghostTargetDy[curDir];
+                return;
+            }
+            let targetXChunk = 32;
+            let targetYChunk = 26;
+            return;
+        }
+        if (id = 3){
+            if (phase = 1){
+                let curDir = prototype.get_direction();
+                let tempX = pacman.get_x_near_chunk(curDir)+ghostTargetDx[curDir];
+                let tempY = pacman.get_y_near_chunk(curDir)+ghostTargetDy[curDir];
+                let targetXChunk = tempX + tempX - ghost1.get_x_chunk();
+                let targetYChunk = tempY + tempY - ghost1.get_y_chunk();
+                return;
+            }
+            let targetXChunk = 2;
+            let targetYChunk = 1;
+            return;
+        }
+        if (id = 4){
+            if (phase = 1){
+                if (distance_between(pacman.get_x_chunk(), pacman.get_y_chunk(), get_x_chunk(), get_y_chunk()) < 50){
+                    let targetXChunk = 32;
+                    let targetYChunk = 1;
+                }else{
+                    let targetXChunk = pacman.get_x_chunk();
+                    let targetYChunk = pacman.get_y_chunk();
+                }
+                return;
+            }
+            let targetXChunk = 32;
+            let targetYChunk = 1;
+            return;
+        }
+        return;
+    }
+    method void set_back_to_init(boolean fg){
+        let state = 2;
+        let phase = 0;
+        do prototype.set_speed(2);
+        if (id = 1){
+            let targetXChunk = 2;
+            let targetYChunk = 26;
+            let timeCounter = 10;
+        }
+        if (id = 2){
+            let targetXChunk = 32;
+            let targetYChunk = 26;
+            let timeCounter = 10;
+        }
+        if (id = 3){
+            let targetXChunk = 2;
+            let targetYChunk = 1;
+            let timeCounter = 7;
+        }
+        if (id = 4){
+            let targetXChunk = 32;
+            let targetYChunk = 1;
+            if (fg){
+                let timeCounter = 7;
+            }
+            else{
+                let phase = 1;
+                let timeCounter = 100;
+            }
+        }
+        return;
+    }
+    method void count(){
+        let timeCounter = timeCounter - 1;
+        return;
+    }
+    // to simulate "inheritance" behavior, put all the public methods here
+    method void move(Map map){
+        var int direc;
+        do prototype.move();
+        let direc = prototype.get_direction();
+        if ((direc = 1)){
+            if (map.get_chunk_info(get_x_chunk(), get_y_near_chunk(direc)) = 4){
+                do prototype.set_y_chunk(25);
+                return;
+            }
+            if (map.get_chunk_info((get_x_chunk()+1), get_y_near_chunk(direc)) = 4){
+                do prototype.set_y_chunk(25);
+                return;
+            }
+        }
+        if ((direc = 3)){
+            if (map.get_chunk_info(get_x_chunk(), get_y_near_chunk(direc)) = 4){
+                do prototype.set_y_chunk(2);
+                return;
+            }
+            if (map.get_chunk_info((get_x_chunk()+1), get_y_near_chunk(direc)) = 4){
+                do prototype.set_y_chunk(2);
+                return;
+            }
+        }
+        return;
+    }
+    method int get_x(){
+        return prototype.get_x();
+    } 
+    method int get_y(){
+        return prototype.get_y();
+    }
+    method int get_x_chunk(){
+        return prototype.get_x_chunk();
+    }
+    method int get_y_chunk(){
+        return prototype.get_y_chunk();
+    }
+    method int get_x_nxt_chunk(int dir){
+        return prototype.get_x_nxt_chunk(dir);
+    }
+    method int get_y_nxt_chunk(int dir){
+        return prototype.get_y_nxt_chunk(dir);
+    }
+    method int get_x_near_chunk(int dir){
+        return prototype.get_x_near_chunk(dir);
+    }
+    method int get_y_near_chunk(int dir){
+        return prototype.get_y_near_chunk(dir);
+    }
+
+    function Array generate_ghost_image(int state){
+        
+        var Array ptrs;
+        let ptrs = Array.new(16);
+        if (state = 0){
+            let ptrs[0] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[1] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 0, 0);
+            let ptrs[2] =  Draw.image_row16_generator( 0, 0, 0, 0,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0, 0);
+            let ptrs[3] =  Draw.image_row16_generator( 0, 0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0);
+            let ptrs[4] =  Draw.image_row16_generator( 0, 0,-1,-1,-1, 1, 1,-1,-1,-1,-1, 1, 1,-1, 0, 0);
+            let ptrs[5] =  Draw.image_row16_generator( 0, 0,-1,-1, 1, 1, 1, 1,-1,-1, 1, 1, 1, 1,-1, 0);
+            let ptrs[6] =  Draw.image_row16_generator( 0, 0,-1,-1, 1,-1,-1, 1,-1,-1, 1,-1,-1, 1,-1, 0);
+            let ptrs[7] =  Draw.image_row16_generator( 0,-1,-1,-1, 1, 1,-1, 1,-1,-1, 1, 1,-1, 1,-1, 0);
+            let ptrs[8] =  Draw.image_row16_generator( 0,-1,-1,-1,-1, 1, 1,-1,-1,-1,-1, 1, 1,-1,-1, 0);
+            let ptrs[9] =  Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[10] = Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[11] = Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[12] = Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[13] = Draw.image_row16_generator( 0,-1,-1, 0,-1,-1,-1, 0, 0,-1,-1,-1, 0,-1,-1, 0);
+            let ptrs[14] = Draw.image_row16_generator( 0,-1, 0, 0, 0,-1,-1, 0, 0,-1,-1, 0, 0, 0,-1, 0);
+            let ptrs[15] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+        if (state = 1){
+            let ptrs[0] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[1] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 0, 0);
+            let ptrs[2] =  Draw.image_row16_generator( 0, 0, 0, 0,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0, 0);
+            let ptrs[3] =  Draw.image_row16_generator( 0, 0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0);
+            let ptrs[4] =  Draw.image_row16_generator( 0, 0,-1,-1,-1, 0, 1,-1,-1,-1,-1, 1, 1,-1, 0, 0);
+            let ptrs[5] =  Draw.image_row16_generator( 0, 0,-1,-1, 0, 1,-1, 1,-1,-1, 1, 1,-1, 1,-1, 0);
+            let ptrs[6] =  Draw.image_row16_generator( 0, 0,-1,-1, 1,-1,-1, 1,-1,-1, 1,-1,-1, 1,-1, 0);
+            let ptrs[7] =  Draw.image_row16_generator( 0,-1,-1,-1, 1, 1, 1, 1,-1,-1, 1, 1, 1, 1,-1, 0);
+            let ptrs[8] =  Draw.image_row16_generator( 0,-1,-1,-1,-1, 1, 1,-1,-1,-1,-1, 1, 1,-1,-1, 0);
+            let ptrs[9] =  Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[10] = Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[11] = Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[12] = Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[13] = Draw.image_row16_generator( 0,-1,-1,-1,-1, 0,-1,-1,-1,-1, 0,-1,-1,-1,-1, 0);
+            let ptrs[14] = Draw.image_row16_generator( 0, 0,-1,-1, 0, 0, 0,-1,-1, 0, 0, 0,-1,-1, 0, 0);
+            let ptrs[15] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+        if (state = 2){
+            let ptrs[0] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[1] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 0, 0);
+            let ptrs[2] =  Draw.image_row16_generator( 0, 0, 0, 0,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0, 0);
+            let ptrs[3] =  Draw.image_row16_generator( 0, 0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0);
+            let ptrs[4] =  Draw.image_row16_generator( 0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0);
+            let ptrs[5] =  Draw.image_row16_generator( 0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[6] =  Draw.image_row16_generator( 0, 0,-1,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1,-1,-1, 0);
+            let ptrs[7] =  Draw.image_row16_generator( 0,-1,-1,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1,-1,-1, 0);
+            let ptrs[8] =  Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[9] =  Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[10] = Draw.image_row16_generator( 0,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1, 0);
+            let ptrs[11] = Draw.image_row16_generator( 0,-1, 1,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1, 1,-1, 0);
+            let ptrs[12] = Draw.image_row16_generator( 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0);
+            let ptrs[13] = Draw.image_row16_generator( 0,-1,-1, 0,-1,-1,-1, 0, 0,-1,-1,-1, 0,-1,-1, 0);
+            let ptrs[14] = Draw.image_row16_generator( 0,-1, 0, 0, 0,-1,-1, 0, 0,-1,-1, 0, 0, 0,-1, 0);
+            let ptrs[15] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+        if (state = 3){
+            let ptrs[0] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[1] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 0, 0);
+            let ptrs[2] =  Draw.image_row16_generator( 0, 0, 0, 0,-1,-1, 1, 1, 1, 1,-1,-1, 0, 0, 0, 0);
+            let ptrs[3] =  Draw.image_row16_generator( 0, 0, 0,-1,-1, 1, 1, 1, 1, 1, 1,-1,-1, 0, 0, 0);
+            let ptrs[4] =  Draw.image_row16_generator( 0, 0,-1,-1, 1, 1, 1, 1, 1, 1, 1, 1,-1,-1, 0, 0);
+            let ptrs[5] =  Draw.image_row16_generator( 0, 0,-1, 1, 1,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1, 0);
+            let ptrs[6] =  Draw.image_row16_generator( 0, 0,-1, 1, 1,-1,-1, 1, 1,-1,-1, 1, 1, 1,-1, 0);
+            let ptrs[7] =  Draw.image_row16_generator( 0,-1,-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,-1, 0);
+            let ptrs[8] =  Draw.image_row16_generator( 0,-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,-1, 0);
+            let ptrs[9] =  Draw.image_row16_generator( 0,-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,-1, 0);
+            let ptrs[10] = Draw.image_row16_generator( 0,-1, 1,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1, 1,-1, 0);
+            let ptrs[11] = Draw.image_row16_generator( 0,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1, 1, 1,-1,-1, 0);
+            let ptrs[12] = Draw.image_row16_generator( 0,-1, 1, 1, 1,-1, 1, 1, 1, 1, 1, 1, 1, 1,-1, 0);
+            let ptrs[13] = Draw.image_row16_generator( 0,-1,-1, 1,-1, 0,-1, 1,-1,-1,-1,-1,-1, 1,-1, 0);
+            let ptrs[14] = Draw.image_row16_generator( 0, 0,-1,-1, 0, 0, 0,-1,-1, 0, 0, 0,-1,-1, 0, 0);
+            let ptrs[15] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+        if (state = 4){
+            let ptrs[0] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[1] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[2] =  Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[3] =  Draw.image_row16_generator( 0, 0, 0, 0, 0,-1,-1, 0, 0, 0, 0,-1,-1, 0, 0, 0);
+            let ptrs[4] =  Draw.image_row16_generator( 0, 0, 0, 0,-1, 1, 1,-1, 0, 0,-1, 1, 1,-1, 0, 0);
+            let ptrs[5] =  Draw.image_row16_generator( 0, 0, 0,-1, 1, 1, 1, 1,-1,-1, 1, 1, 1, 1,-1, 0);
+            let ptrs[6] =  Draw.image_row16_generator( 0, 0, 0,-1, 1,-1,-1, 1,-1,-1, 1,-1,-1, 1,-1, 0);
+            let ptrs[7] =  Draw.image_row16_generator( 0, 0, 0,-1, 1, 1,-1, 1,-1,-1, 1, 1,-1, 1,-1, 0);
+            let ptrs[8] =  Draw.image_row16_generator( 0, 0, 0, 0,-1, 1, 1,-1, 0, 0,-1, 1, 1,-1, 0, 0);
+            let ptrs[9] =  Draw.image_row16_generator( 0, 0, 0, 0, 0,-1,-1, 0, 0, 0, 0,-1,-1, 0, 0, 0);
+            let ptrs[10] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[11] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[12] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[13] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[14] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let ptrs[15] = Draw.image_row16_generator( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+        return ptrs;
+    }
+
+    method int img_index(){
+        if (is_transparent()){
+            return 4;
+        }
+        if (is_frightened()){
+            return (2 + image_state);
+        }
+        return image_state;
+    }
+    function void release_ghost_image(Array ptrs){
+        var int i;
+        var Array temp;
+        let i = 0;
+        while (i < 16){
+            let temp = ptrs[i];
+            do temp.dispose();
+            let i = i + 1;
+        }
+        do ptrs.dispose();
+        return;
+
+    }
+
+}

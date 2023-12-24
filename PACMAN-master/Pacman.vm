@@ -1,0 +1,3219 @@
+function Pacman.init 0
+push constant 5
+call Array.new 1
+pop static 0
+push constant 0
+push static 0
+add
+push constant 0
+call Pacman.generate_pacman_image 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 0
+add
+push constant 1
+call Pacman.generate_pacman_image 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 0
+add
+push constant 2
+call Pacman.generate_pacman_image 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push static 0
+add
+push constant 3
+call Pacman.generate_pacman_image 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push static 0
+add
+push constant 4
+call Pacman.generate_pacman_image 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Pacman.release 0
+push constant 0
+push static 0
+add
+pop pointer 1
+push that 0
+call Pacman.release_pacman_image 1
+pop temp 0
+push constant 1
+push static 0
+add
+pop pointer 1
+push that 0
+call Pacman.release_pacman_image 1
+pop temp 0
+push constant 2
+push static 0
+add
+pop pointer 1
+push that 0
+call Pacman.release_pacman_image 1
+pop temp 0
+push constant 3
+push static 0
+add
+pop pointer 1
+push that 0
+call Pacman.release_pacman_image 1
+pop temp 0
+push constant 4
+push static 0
+add
+pop pointer 1
+push that 0
+call Pacman.release_pacman_image 1
+pop temp 0
+push static 0
+call Array.dispose 1
+pop temp 0
+push constant 0
+return
+function Pacman.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+push constant 8
+call Math.multiply 2
+push argument 1
+push constant 8
+call Math.multiply 2
+push constant 8
+push argument 2
+call MoveableObj.new 4
+pop this 0
+push constant 4
+pop this 1
+push pointer 0
+return
+function Pacman.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call MoveableObj.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Pacman.update_direction 2
+push argument 0
+pop pointer 0
+push pointer 0
+call Pacman.get_x 1
+call Game.is_chunk_start 1
+not
+push pointer 0
+call Pacman.get_y 1
+call Game.is_chunk_start 1
+not
+or
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+call Keyboard.keyPressed 0
+pop local 0
+push local 0
+push constant 68
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push pointer 0
+push constant 0
+push argument 1
+call Pacman.valid_move_direction 3
+pop local 1
+push local 1
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+push constant 0
+call MoveableObj.set_dir 2
+pop temp 0
+label IF_FALSE2
+label IF_FALSE1
+push local 0
+push constant 83
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push pointer 0
+push constant 1
+push argument 1
+call Pacman.valid_move_direction 3
+pop local 1
+push local 1
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 0
+push constant 1
+call MoveableObj.set_dir 2
+pop temp 0
+label IF_FALSE4
+label IF_FALSE3
+push local 0
+push constant 65
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push pointer 0
+push constant 2
+push argument 1
+call Pacman.valid_move_direction 3
+pop local 1
+push local 1
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 0
+push constant 2
+call MoveableObj.set_dir 2
+pop temp 0
+label IF_FALSE6
+label IF_FALSE5
+push local 0
+push constant 87
+eq
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push pointer 0
+push constant 3
+push argument 1
+call Pacman.valid_move_direction 3
+pop local 1
+push local 1
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push this 0
+push constant 3
+call MoveableObj.set_dir 2
+pop temp 0
+label IF_FALSE8
+label IF_FALSE7
+push constant 0
+return
+function Pacman.draw 1
+push argument 0
+pop pointer 0
+push this 0
+call MoveableObj.get_direction 1
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 1
+push constant 4
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+pop this 1
+goto IF_END1
+label IF_FALSE1
+push constant 4
+pop this 1
+label IF_END1
+label IF_FALSE0
+push this 0
+call MoveableObj.get_direction 1
+push constant 1
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 1
+push constant 4
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 1
+pop this 1
+goto IF_END3
+label IF_FALSE3
+push constant 4
+pop this 1
+label IF_END3
+label IF_FALSE2
+push this 0
+call MoveableObj.get_direction 1
+push constant 2
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 1
+push constant 4
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 2
+pop this 1
+goto IF_END5
+label IF_FALSE5
+push constant 4
+pop this 1
+label IF_END5
+label IF_FALSE4
+push this 0
+call MoveableObj.get_direction 1
+push constant 3
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 1
+push constant 4
+eq
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push constant 3
+pop this 1
+goto IF_END7
+label IF_FALSE7
+push constant 4
+pop this 1
+label IF_END7
+label IF_FALSE6
+push pointer 0
+call Pacman.img_index 1
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push pointer 0
+call Pacman.get_x 1
+call Game.translate_x_to_col 1
+push pointer 0
+call Pacman.get_y 1
+call Game.translate_y_to_row 1
+push local 0
+push constant 16
+push constant 0
+call Draw.render 5
+pop temp 0
+push constant 0
+return
+function Pacman.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+call Pacman.get_x 1
+call Game.translate_x_to_col 1
+push pointer 0
+call Pacman.get_y 1
+push constant 16
+add
+call Game.translate_y_to_row 1
+push pointer 0
+call Pacman.get_x 1
+push constant 16
+add
+call Game.translate_x_to_col 1
+push pointer 0
+call Pacman.get_y 1
+call Game.translate_y_to_row 1
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Pacman.move 2
+push argument 0
+pop pointer 0
+push pointer 0
+call Pacman.get_x 1
+call Game.is_chunk_start 1
+not
+push pointer 0
+call Pacman.get_y 1
+call Game.is_chunk_start 1
+not
+or
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+call MoveableObj.move 1
+pop temp 0
+push constant 0
+return
+label IF_FALSE0
+push this 0
+call MoveableObj.get_direction 1
+pop local 1
+push pointer 0
+push local 1
+push argument 1
+call Pacman.valid_move_direction 3
+pop local 0
+push local 1
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 1
+push pointer 0
+call Pacman.get_x_chunk 1
+push pointer 0
+push local 1
+call Pacman.get_y_near_chunk 2
+call Map.get_chunk_info 3
+push constant 4
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+push constant 25
+call MoveableObj.set_y_chunk 2
+pop temp 0
+push constant 0
+return
+label IF_FALSE2
+push argument 1
+push pointer 0
+call Pacman.get_x_chunk 1
+push constant 1
+add
+push pointer 0
+push local 1
+call Pacman.get_y_near_chunk 2
+call Map.get_chunk_info 3
+push constant 4
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 0
+push constant 25
+call MoveableObj.set_y_chunk 2
+pop temp 0
+push constant 0
+return
+label IF_FALSE3
+label IF_FALSE1
+push local 1
+push constant 3
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push argument 1
+push pointer 0
+call Pacman.get_x_chunk 1
+push pointer 0
+push local 1
+call Pacman.get_y_near_chunk 2
+call Map.get_chunk_info 3
+push constant 4
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 0
+push constant 2
+call MoveableObj.set_y_chunk 2
+pop temp 0
+push constant 0
+return
+label IF_FALSE5
+push argument 1
+push pointer 0
+call Pacman.get_x_chunk 1
+push constant 1
+add
+push pointer 0
+push local 1
+call Pacman.get_y_near_chunk 2
+call Map.get_chunk_info 3
+push constant 4
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 0
+push constant 2
+call MoveableObj.set_y_chunk 2
+pop temp 0
+push constant 0
+return
+label IF_FALSE6
+label IF_FALSE4
+push local 0
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push this 0
+call MoveableObj.move 1
+pop temp 0
+label IF_FALSE7
+push constant 0
+return
+function Pacman.get_x 0
+push argument 0
+pop pointer 0
+push this 0
+call MoveableObj.get_x 1
+return
+function Pacman.get_y 0
+push argument 0
+pop pointer 0
+push this 0
+call MoveableObj.get_y 1
+return
+function Pacman.get_x_chunk 0
+push argument 0
+pop pointer 0
+push this 0
+call MoveableObj.get_x_chunk 1
+return
+function Pacman.get_y_chunk 0
+push argument 0
+pop pointer 0
+push this 0
+call MoveableObj.get_y_chunk 1
+return
+function Pacman.get_x_nxt_chunk 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+call MoveableObj.get_x_nxt_chunk 2
+return
+function Pacman.get_y_nxt_chunk 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+call MoveableObj.get_y_nxt_chunk 2
+return
+function Pacman.get_x_near_chunk 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+call MoveableObj.get_x_near_chunk 2
+return
+function Pacman.get_y_near_chunk 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+call MoveableObj.get_y_near_chunk 2
+return
+function Pacman.valid_move_direction 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 0
+eq
+push argument 1
+push constant 2
+eq
+or
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 2
+push pointer 0
+push argument 1
+call Pacman.get_x_near_chunk 2
+push pointer 0
+call Pacman.get_y_chunk 1
+call Map.get_chunk_info 3
+push constant 1
+neg
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push argument 2
+push pointer 0
+push argument 1
+call Pacman.get_x_near_chunk 2
+push pointer 0
+call Pacman.get_y_chunk 1
+push constant 1
+add
+call Map.get_chunk_info 3
+push constant 1
+neg
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+return
+label IF_FALSE2
+push constant 0
+not
+return
+label IF_FALSE0
+push argument 1
+push constant 1
+eq
+push argument 1
+push constant 3
+eq
+or
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push argument 2
+push pointer 0
+call Pacman.get_x_chunk 1
+push pointer 0
+push argument 1
+call Pacman.get_y_near_chunk 2
+call Map.get_chunk_info 3
+push constant 1
+neg
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+return
+label IF_FALSE4
+push argument 2
+push pointer 0
+call Pacman.get_x_chunk 1
+push constant 1
+add
+push pointer 0
+push argument 1
+call Pacman.get_y_near_chunk 2
+call Map.get_chunk_info 3
+push constant 1
+neg
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 0
+return
+label IF_FALSE5
+push constant 0
+not
+return
+label IF_FALSE3
+push constant 0
+not
+return
+function Pacman.generate_pacman_image 1
+push constant 16
+call Array.new 1
+pop local 0
+push argument 0
+push constant 4
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push local 0
+add
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push local 0
+add
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 8
+push local 0
+add
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 9
+push local 0
+add
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 10
+push local 0
+add
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 11
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 12
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 13
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 14
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 15
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE0
+push argument 0
+push constant 0
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 8
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 9
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 10
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 11
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 12
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 13
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 14
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 15
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE1
+push argument 0
+push constant 1
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 8
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 9
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 10
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 11
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 12
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 13
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 14
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 15
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE2
+push argument 0
+push constant 2
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 8
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 9
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 10
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 11
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 12
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 13
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 14
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 15
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE3
+push argument 0
+push constant 3
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 8
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 9
+push local 0
+add
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 10
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 11
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 12
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 13
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 1
+neg
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 14
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 15
+push local 0
+add
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Draw.image_row16_generator 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE4
+push local 0
+return
+function Pacman.img_index 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Pacman.release_pacman_image 2
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 16
+lt
+not
+if-goto WHILE_END0
+push local 0
+push argument 0
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+call Array.dispose 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push argument 0
+call Array.dispose 1
+pop temp 0
+push constant 0
+return
