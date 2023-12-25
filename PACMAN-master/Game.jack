@@ -94,33 +94,17 @@ class Game {
         while(~(k = 0)){
             let key = 0;
             let key = Keyboard.keyPressed();
-            if(key = 53){
+            if((key = 53) | (key = 54)){
                 let k = k - 1;
             }
         }
-        if(k = 0){
+        if (key = 53){
             return true;
-        }else{
+        }
+        if (key = 54){
             return false;
         }
-    }
-
-    method boolean end(){
-        var char key;
-        var int k;
-        let k = 1;
-        while(~(k = 0)){
-            let key = 0;
-            let key = Keyboard.keyPressed();
-            if(key = 53){
-                let k = k - 1;
-            }
-        }
-        if(k = 0){
-            return true;
-        }else{
-            return false;
-        }
+        return false;
     }
 
     method boolean update_states(Map map, Pacman pacman, Array ghosts){
@@ -283,24 +267,46 @@ class Game {
     }
 
     method void win(){
+        var int key;
+        var int k;
+        let k = 1;
         do Start2.clear();
         do Output.moveCursor(14, 26);
         do Output.printString("You win.");
         do Output.moveCursor(16, 25);
-        do Output.printString(" score:");
+        do Output.printString("score: ");
         do Output.printInt(score);
+        do Output.moveCursor(18, 18);
+        do Output.printString(">> press 4 to continue <<");
+        while(~(k = 0)){
+            let key = 0;
+            let key = Keyboard.keyPressed();
+            if (key = 52){
+                let k = k - 1;
+            }
+        }
         return;
     }
 
     method void lose(){
+        var int key;
+        var int k;
+        let k = 1;
         do Start2.clear();
         do Output.moveCursor(14, 26);
         do Output.printString("You lose.");
         do Output.moveCursor(16, 25);
-        do Output.printString(" score:");
+        do Output.printString("score: ");
         do Output.printInt(score);
-        do Output.moveCursor(20, 24);
-        do Output.printString("press 5 to end");
+        do Output.moveCursor(20, 18);
+        do Output.printString(">> press 4 to continue <<");
+        while(~(k = 0)){
+            let key = 0;
+            let key = Keyboard.keyPressed();
+            if (key = 52){
+                let k = k - 1;
+            }
+        }
         return;
     }
     

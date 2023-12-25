@@ -541,7 +541,7 @@ push constant 0
 pop this 2
 push constant 1
 pop this 1
-push constant 3
+push constant 2
 pop this 7
 push this 0
 push this 0

@@ -156,7 +156,7 @@ class Ghost {
     method void set_frightened(){
         let phase = 0;
         let state = 1;
-        let timeCounter = 3;
+        let timeCounter = 2;
         do prototype.set_dir(MoveableObj.oposite_direction(prototype.get_direction()));
         do prototype.set_speed(1);
         do update_target(0, 0);
