@@ -3,8 +3,6 @@ class Main {
     function void main(){
         var Game game;
 
-        do Start2.godtone(10, 148);
-        do Start2.wayne75525(402, 148);
         do MoveableObj.init();
         do Game.init();
         do Ghost.init();
@@ -12,7 +10,12 @@ class Main {
         do Map.init();
         
         let game = Game.new();
+        do Start2.beforeStart();
+
         while (game.start()){
+            do Start2.clear();
+            do Start2.wayne75525(402, 148);
+            do Start2.godtone(10, 148);
             if (game.run()){
                 do game.win();
             }else{
@@ -20,9 +23,10 @@ class Main {
             }
             do game.dispose();
             let game = Game.new();
+            if(game.end()){
+                return;
+            }
         }
-        
-        
         
         do MoveableObj.release();
         do Ghost.release();

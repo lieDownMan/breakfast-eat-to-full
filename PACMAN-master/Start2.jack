@@ -1,4 +1,22 @@
 class Start2{
+    function void beforeStart(){
+        do Start2.clear();
+        do Output.moveCursor(7,21);
+        do Output.printString("breakfast_eat_to full");
+        do Output.moveCursor(19, 23);
+        do Output.printString("press 5 to start"); 
+        do Start2.wayne75525(402, 148);
+        do Start2.godtone(10, 148);
+        return;
+    }
+
+    function void clear(){
+        do Screen.setColor(false);
+		do Screen.drawRectangle(0, 0, 511, 255);
+        do Screen.setColor(true);
+        return;
+    }
+
     function void wayne75525(int x0, int y0){
         do Screen.setColor(true);
         do Screen.drawPixel(x0 + 53, y0 + 1);
