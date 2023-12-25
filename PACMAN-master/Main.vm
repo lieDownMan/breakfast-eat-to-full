@@ -47,23 +47,17 @@ call Game.dispose 1
 pop temp 0
 call Game.new 0
 pop local 0
-push local 0
-call Game.end 1
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push constant 0
-return
-label IF_FALSE1
+call Start2.beforeStart 0
+pop temp 0
 goto WHILE_EXP0
 label WHILE_END0
 call MoveableObj.release 0
 pop temp 0
+call Game.release 0
+pop temp 0
 call Ghost.release 0
 pop temp 0
 call Pacman.release 0
-pop temp 0
-call Map.release 0
 pop temp 0
 call Map.release 0
 pop temp 0

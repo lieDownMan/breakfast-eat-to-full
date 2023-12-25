@@ -8,11 +8,12 @@ class Main {
         do Ghost.init();
         do Pacman.init();
         do Map.init();
-        
+
         let game = Game.new();
         do Start2.beforeStart();
 
         while (game.start()){
+
             do Start2.clear();
             do Start2.wayne75525(402, 148);
             do Start2.godtone(10, 148);
@@ -23,15 +24,13 @@ class Main {
             }
             do game.dispose();
             let game = Game.new();
-            if(game.end()){
-                return;
-            }
+            do Start2.beforeStart();
         }
         
         do MoveableObj.release();
+        do Game.release();
         do Ghost.release();
         do Pacman.release();
-        do Map.release();
         do Map.release();
         return;
     }

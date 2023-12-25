@@ -229,6 +229,10 @@ pop local 0
 push local 0
 push constant 53
 eq
+push local 0
+push constant 54
+eq
+or
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
@@ -239,63 +243,27 @@ pop local 1
 label IF_FALSE0
 goto WHILE_EXP0
 label WHILE_END0
-push local 1
-push constant 0
-eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push constant 0
-not
-return
-goto IF_END1
-label IF_FALSE1
-push constant 0
-return
-label IF_END1
-function Game.end 2
-push argument 0
-pop pointer 0
-push constant 1
-pop local 1
-label WHILE_EXP0
-push local 1
-push constant 0
-eq
-not
-not
-if-goto WHILE_END0
-push constant 0
-pop local 0
-call Keyboard.keyPressed 0
-pop local 0
 push local 0
 push constant 53
 eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push local 1
-push constant 1
-sub
-pop local 1
-label IF_FALSE0
-goto WHILE_EXP0
-label WHILE_END0
-push local 1
-push constant 0
-eq
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push constant 0
 not
 return
-goto IF_END1
 label IF_FALSE1
+push local 0
+push constant 54
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
 push constant 0
 return
-label IF_END1
+label IF_FALSE2
+push constant 0
+return
 function Game.update_states 4
 push argument 0
 pop pointer 0
@@ -929,9 +897,11 @@ return
 label IF_FALSE0
 push constant 0
 return
-function Game.win 0
+function Game.win 2
 push argument 0
 pop pointer 0
+push constant 1
+pop local 1
 call Start2.clear 0
 pop temp 0
 push constant 14
@@ -964,8 +934,6 @@ call Output.moveCursor 2
 pop temp 0
 push constant 7
 call String.new 1
-push constant 32
-call String.appendChar 2
 push constant 115
 call String.appendChar 2
 push constant 99
@@ -978,16 +946,102 @@ push constant 101
 call String.appendChar 2
 push constant 58
 call String.appendChar 2
+push constant 32
+call String.appendChar 2
 call Output.printString 1
 pop temp 0
 push this 0
 call Output.printInt 1
 pop temp 0
+push constant 18
+push constant 18
+call Output.moveCursor 2
+pop temp 0
+push constant 25
+call String.new 1
+push constant 62
+call String.appendChar 2
+push constant 62
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 52
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 117
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 60
+call String.appendChar 2
+push constant 60
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label WHILE_EXP0
+push local 1
+push constant 0
+eq
+not
+not
+if-goto WHILE_END0
+push constant 0
+pop local 0
+call Keyboard.keyPressed 0
+pop local 0
+push local 0
+push constant 52
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+push constant 1
+sub
+pop local 1
+label IF_FALSE0
+goto WHILE_EXP0
+label WHILE_END0
 push constant 0
 return
-function Game.lose 0
+function Game.lose 2
 push argument 0
 pop pointer 0
+push constant 1
+pop local 1
 call Start2.clear 0
 pop temp 0
 push constant 14
@@ -1022,8 +1076,6 @@ call Output.moveCursor 2
 pop temp 0
 push constant 7
 call String.new 1
-push constant 32
-call String.appendChar 2
 push constant 115
 call String.appendChar 2
 push constant 99
@@ -1036,17 +1088,25 @@ push constant 101
 call String.appendChar 2
 push constant 58
 call String.appendChar 2
+push constant 32
+call String.appendChar 2
 call Output.printString 1
 pop temp 0
 push this 0
 call Output.printInt 1
 pop temp 0
 push constant 20
-push constant 24
+push constant 18
 call Output.moveCursor 2
 pop temp 0
-push constant 14
+push constant 25
 call String.new 1
+push constant 62
+call String.appendChar 2
+push constant 62
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
 push constant 112
 call String.appendChar 2
 push constant 114
@@ -1059,7 +1119,7 @@ push constant 115
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-push constant 53
+push constant 52
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
@@ -1069,14 +1129,54 @@ push constant 111
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-push constant 101
+push constant 99
+call String.appendChar 2
+push constant 111
 call String.appendChar 2
 push constant 110
 call String.appendChar 2
-push constant 100
+push constant 116
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 117
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 60
+call String.appendChar 2
+push constant 60
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
+label WHILE_EXP0
+push local 1
+push constant 0
+eq
+not
+not
+if-goto WHILE_END0
+push constant 0
+pop local 0
+call Keyboard.keyPressed 0
+pop local 0
+push local 0
+push constant 52
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+push constant 1
+sub
+pop local 1
+label IF_FALSE0
+goto WHILE_EXP0
+label WHILE_END0
 push constant 0
 return
 function Game.init 0
